@@ -14,7 +14,86 @@ class RecipeCard extends HTMLElement {
     // A3. TODO - Create a style element - This will hold all of the styles for the Web Component
     let styleEle = document.createElement('style');
     // A4. TODO - Insert all of the styles from cardTemplate.html into the <style> element you just made
-    styleEle.append(document.getElementsByTagName('style'));
+    
+    // styleEle.append(document.getElementsByTagName('style'));
+    styleEle.textContent = `
+    * {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    article {
+      align-items: center;
+      border: 1px solid rgb(223, 225, 229);
+      border-radius: 8px;
+      display: grid;
+      grid-template-rows: 118px 56px 14px 18px 15px 36px;
+      height: auto;
+      row-gap: 5px;
+      padding: 0 16px 16px 16px;
+      width: 178px;
+    }
+
+    div.rating {
+      align-items: center;
+      column-gap: 5px;
+      display: flex;
+    }
+
+    div.rating>img {
+      height: auto;
+      display: inline-block;
+      object-fit: scale-down;
+      width: 78px;
+    }
+
+    article>img {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      height: 118px;
+      object-fit: cover;
+      margin-left: -16px;
+      width: calc(100% + 32px);
+    }
+
+    p.ingredients {
+      height: 32px;
+      line-height: 16px;
+      padding-top: 4px;
+      overflow: hidden;
+    }
+
+    p.organization {
+      color: black !important;
+    }
+
+    p.title {
+      display: -webkit-box;
+      font-size: 16px;
+      height: 36px;
+      line-height: 18px;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    p:not(.title),
+    span,
+    time {
+      color: #70757A;
+      font-size: 12px;
+    }
+    `
+
     // A5. TODO - Append the <style> and <article> elements to the Shadow DOM
     shadowEl.append(articleEle);
     shadowEl.append(styleEle);
@@ -46,11 +125,51 @@ class RecipeCard extends HTMLElement {
     if (!data) return;
 
     // A6. TODO - Select the <article> we added to the Shadow DOM in the constructor
-    let art = shadowEl.articleEle;
+    let art = shadowEl.getElementsByTagName('article');
     // A7. TODO - Set the contents of the <article> with the <article> template given in
     //           cardTemplate.html and the data passed in (You should only have one <article>,
     //           do not nest an <article> inside another <article>). You should use Template
     //           literals (tempalte strings) and element.innerHTML for this.
+    let image = document.createElement('img');
+    image.setAttribute("src", data["imgSrc"]);
+    image.setAttribute("alt", data["imgAlt"]);
+    art.append(image);
+
+    let para1 = document.createElement('p');
+    para1.setAttribute("class", "title");
+    let ahref = document.createElement('a');
+    ahref.setAttribute("href", data["titleLnk"]);
+    ahref.innerHTML = data["titleTxt"];
+    para1.append(ahref);
+    art.append(para1);
+
+    let para2 = document.createElement('p');
+    para2.setAttribute("class", "organization");
+    para2.innerHTML = data["organization"];
+    art.append(para2);
+
+    let division = document.createElement('div');
+    division.setAttribute("class", "rating");
+    let spanning = document.createElement('span');
+    spanning.innerHTML = data["rating"];
+    division.append(spanning);
+    let imageDiv = document.createElement('img');
+    imageDiv.setAttribute("src", `/assets/images/icons/${data["rating"]}-star.svg`);
+    imageDiv.setAttribute("alt", `${data["rating"]} stars`);
+    division.append(imageDiv);
+    let spanning2 = document.createElement('span');
+    spanning2.innerHTML = `(${data["numRatings"]})`;
+    division.append(spanning2);
+    art.append(division);
+
+    let duration = document.createElement('time');
+    duration.innerHTML = data["lengthTime"];
+    art.append(duration);
+
+    let para3 = document.createElement('p');
+    para3.setAttribute("class", "ingredients");
+    para3.innerHTML = data["ingredients"];
+    art.append(para3);
   }
 }
 

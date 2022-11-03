@@ -152,7 +152,7 @@ class RecipeCard extends HTMLElement {
     spanning.innerHTML = data["rating"];
     division.append(spanning);
     let imageDiv = document.createElement('img');
-    imageDiv.setAttribute("src", `/assets/images/icons/${data["rating"]}-star.svg`);
+    imageDiv.setAttribute("src", `assets/images/icons/${data["rating"]}-star.svg`);
     imageDiv.setAttribute("alt", `${data["rating"]} stars`);
     division.append(imageDiv);
     let spanning2 = document.createElement('span');

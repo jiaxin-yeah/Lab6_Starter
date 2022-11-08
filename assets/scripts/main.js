@@ -65,15 +65,13 @@ function saveRecipesToStorage(recipes) {
  * Adds the necesarry event handlers to <form> and the clear storage
  * <button>.
  */
-function initFormHandler() {
+ function initFormHandler() {
 
   // B2. TODO - Get a reference to the <form> element
   let formEle = document.querySelector("form");
   // B3. TODO - Add an event listener for the 'submit' event, which fires when the
   //            submit button is clicked
-  let bottomEle = document.querySelector('button[type="submit"]');
-  bottomEle.addEventListener('click', (event) => {
-    event.preventDefault();
+  formEle.addEventListener('submit', () => {
   // Steps B4-B9 will occur inside the event listener from step B3
   // B4. TODO - Create a new FormData object from the <form> element reference above
     let formDataEle = new FormData(formEle);
@@ -94,7 +92,7 @@ function initFormHandler() {
   // B9. TODO - Get the recipes array from localStorage, add this new recipe to it, and
   //            then save the recipes array back to localStorage
     let currRecipes = getRecipesFromStorage();
-    currRecipes.push(recipeCard);
+    currRecipes.push(recipeObject);
     saveRecipesToStorage(currRecipes);
   });
 
